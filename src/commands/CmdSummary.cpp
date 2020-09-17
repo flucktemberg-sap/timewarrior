@@ -84,6 +84,7 @@ int CmdSummary (
 
   auto ids = findHint (cli, ":ids");
   auto show_annotation = findHint (cli, ":annotations");
+  auto show_extendedannotation = findHint (cli, ":exannotations");
 
   Table table;
   table.width (1024);
@@ -101,7 +102,7 @@ int CmdSummary (
 
   auto offset = 0;
 
-  if (show_annotation)
+  if (show_annotation || show_extendedannotation)
   {
     table.add ("Annotation");
     offset = 1;
@@ -151,12 +152,18 @@ int CmdSummary (
 
       table.set (row, (ids ? 4 : 3), tags);
 
-      if (show_annotation)
+      if (show_annotation || show_extendedannotation)
       {
         auto annotation = track.getAnnotation ();
 
-        if (annotation.length () > 15)
-          annotation = annotation.substr (0, 12) + "...";
+	int maxLength = 40;
+	if(show_extendedannotation)
+		maxLength = 150;
+
+        if (annotation.length () > 40 && show_annotation)
+          annotation = annotation.substr (0, 37) + "...";
+	else if (annotation.length () > 150 && show_extendedannotation)
+          annotation = annotation.substr (0, 147) + "...";
 
         table.set (row, (ids ? 5 : 4), annotation);
       }

@@ -96,6 +96,7 @@ void initializeEntities (CLI& cli)
   cli.entity ("hint", ":fill");
   cli.entity ("hint", ":ids");
   cli.entity ("hint", ":annotations");
+  cli.entity ("hint", ":exannotations");
   cli.entity ("hint", ":lastmonth");
   cli.entity ("hint", ":lastquarter");
   cli.entity ("hint", ":lastweek");
